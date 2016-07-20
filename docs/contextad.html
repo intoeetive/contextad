@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title>Context Ads</title>
+
+  <style type="text/css" media="screen,print">@import url("docs.css");</style>
+<META http-equiv=Content-Type content="text/html; charset=utf-8"></head>
+
+<body>
+<div><a name="top"></a></div>
+
+<div id="header">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
+<td class="docheading" style="width:300px;"><h1 style="font-size: 18px; font-weight: bold;">intoEEtive.com</h1></td>
+<td class="searchbox">
+
+</td>
+</tr>
+</table>
+</div>
+
+
+<div id="navlinks">
+<a href="http://www.intoeetive.com/">intoEEtive.com</a> &gt;
+<a href="http://www.intoeetive.com/index.php/category/extending_ee">EE add-ons</a> &gt;
+<a href="http://www.intoeetive.com/index.php/comments/context-ad-management-system-for-expressionengine">Context Ads</a>
+</div>
+
+
+<div id="content">
+
+	<h1>Context Ads</h1>
+
+	<p>Stop messing with lengthy javascript code - use single EE tag to automatically display banner depending on what entry, category or channel is viewed.</p>
+	<p>Create a banner in Control Panel, associate it with certain entries, categories or channels and you will get appropriate banner(s) displayed depending on what entry/category/channel is viewed.</p>
+	
+
+
+ 	<ul>		
+        
+        <li><a href="#general">Concepts</a></li>
+        <li><a href="#cp">Control Panel</a>
+			<ul>
+            <li><a href="#cp-zones">Zones</a></li>
+            <li><a href="#cp-banners">Banners</a></li>             
+            </ul>
+		</li>
+        <li><a href="#tags">Template tags</a>
+            <ul>
+            <li><a href="#tags-show">Show banner</a></li>        
+            </ul>
+        </li>
+        
+	</ul>
+
+	<h2><a name="general" href="#top">&uarr;</a>Concepts</h2>
+
+<p><strong>Banners</strong> can be images (most common) or text. You can also append extra html to banner. The banner can be associated with one or several entries (displayed when entry is viewed), categories (displayed when entry in that category or category page is viewed) or channels (displayed when entry or entries in channel are viewed). The banner can also have no associations - in that case it is displayed if there is no matching context. The context is defined in this order: entry &rarr; category &rarr; channel  &rarr; no association. I.e., if there is banner associated with the entry, it is displayed, if not - trying to display banner associated with one of entry categories, if there are none - trying to get channel-related banner; if there is still nothing to display, take one banner without associations.</p>
+
+<p><strong>Zones</strong> are "areas" on your pages used to display banners. The banner can belong to one or several zones.</p>
+
+
+
+
+	<h2><a name="cp" href="#top">&uarr;</a>Control Panel</h2>
+
+<h3><a name="cp-zones" href="#top">&uarr;</a>Zones</h3>
+
+<p>Each zone reprezents the place on your site site's page where you want to display a banner (and where you will insert the appropriate template tag). When creating a zone, you need to specify:<br />
+&bull; zone title (used to identify zone in Control Panel)<br />
+&bull; zone name (can be used to referece zone in templates)
+</p>
+<p>You can also specify extra html code that will be appended to each banner shown in zone. You can use it to add some tracking or analytics code, or just some static content.</p>
+
+<h3><a name="cp-banners" href="#top">&uarr;</a>Banners</h3>
+
+<p>Banner editing page consists of two main parts: banner data and associations.</p>
+<p><strong>Title</strong> is a descriptive name of your banner. It is for your own reference and used in Control Panel only.</p>
+<p>While the banners can be deleted, it is not recommended to just hide them from site by setting <strong>Enabled</strong> to "no".</p>
+<p><strong>Banner image</strong> can be stored locally (use the "+" icon to upload and/or select the image) or you can also enter remove URL. Dimensions (width X height) are optional bu recommended.</p>	
+<p><strong>Alt text</strong> is used at "alt" attribute for the image. If there is no image, text ad will be shown instead, "Alt text" will serve as the text of the link.</p>	
+<p><strong>Link URL</strong> can be complete URL, or formatted as {path=/some/page}</p>	
+<p>You can append extra HTML code to the banner (for example, tracking or analytics code) using <strong>Extra HTML</strong> field</p>
+<p>The banner can be automatically enabled/disabled based on check of following fields: 
+<strong>Stop showing after views reach limit of	</strong> (number), 
+<strong>Stop showing after clicks reach limit of</strong>	(number),
+<strong>Start showing on date</strong>	,
+<strong>Stop showing on date</strong>.
+</p>	
+
+<p>After you specify banner data, you need to <strong>assoicate</strong> it with:<br />
+&bull; zones;
+&bull; entries;
+&bull; categories;
+&bull; channels.
+</p>
+<p>If the banner is not associated with any zone, it is not displayed.</p>
+<p>If the banner is not associated with any entry/category/channel, it is only displayed if there are no other banners that fit the context better.</p>
+
+
+	<h2><a name="tags" href="#top">&uarr;</a>Template tags</h2>
+
+<h3><a name="tags-show" href="#top">&uarr;</a>Show banner</h3>
+
+<p><strong>{exp:contextad:show}</strong></p>
+
+<code>
+{exp:channel:entries limit="1" url_title="{segment_2}"}<br />
+&lt;p&gt;{title}&lt;/p&gt;<br />
+{exp:contextad:show zone_id="1" entry_id="{entry_id}"}<br />
+{/exp:channel:entriess}<br />
+</code>
+
+<code>
+{exp:contextad:show zone="header" url_title="{segment_2}"}<br />
+</code>
+
+<code>
+{exp:contextad:show zone_id="3" channel="{segment_1}" category="{segment_2}" url_title="{segment_3}"}<br />
+</code>
+
+<p><strong>Tag parameters:</strong>
+<ul>
+<li><dfn>zone_id</dfn> &mdash; zone ID (<em>required</em>)</li>
+<li><dfn>zone</dfn> &mdash; zone name (required, unless zone_id is set)</li>
+<li><dfn>entry_id</dfn> &mdash; id of entry to fetch banners for</li>
+<li><dfn>url_title</dfn> &mdash; url_title of entry to fetch banners for (if entry_id is not set)</li>
+<li><dfn>category_id</dfn> &mdash; id of category to fetch banners for (used if category cannot be obtained via entry_id)</li>
+<li><dfn>category</dfn> &mdash; category url_title (alternative to category_id)</li>
+<li><dfn>channel_id</dfn> &mdash; id of channel to fetch banners for (used if channel cannot be obtained via entry_id)</li>
+<li><dfn>channel</dfn> &mdash; channel name (alternative to channel_id)</li>
+</ul>
+</p>
+
+
+
+
+</div>
+
+<p class="center"><a href="#top">Top of page</a></p>
+
+<!-- {user_guide_comments} -->
+
+<div id="footer">
+  <address>Copyright &copy; 2011 Yuri Salimovskiy <a href="http://www.intoeetive.com/">intoEEtive.com</a></address>
+</div>
+
+</body>
+</html>
